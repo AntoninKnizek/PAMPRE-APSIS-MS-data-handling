@@ -1,4 +1,4 @@
-Python MS data analysis library for PAMPRE/APSIS at LATMOS, UVSQ, Paris, France.
+Python MS data analysis library for PAMPRE/APSIS
 Author: Antonín Knížek (Antonin Knizek), email: knizeka@gmail.com
 Created 29 Nov 2022.
 
@@ -17,8 +17,6 @@ This library now contains the following files:
 - create_database_for_matlab.py
 - README.txt
 - LICENSE
-- folder NIST with and example mass spectrum from NIST
-- folder data with an example spectrum from PAMPRE
 
 #######################################################
 Prerequisites for use:
@@ -115,9 +113,13 @@ database_functions.py:
             WARNING: This function overwrites the central database file. Keep a backup
             copy, save lives.
             WARNING: This function does not check for duplicates in the database.
+        round_half_up(n,decimals):
+            a funciton for rounding up numbers
             
 create_database_for_matlab.py:
     A short example code which loads the central database, normalizes the fragmentation pattern intesities and creates a database.txt file, which can be directly improted by the matlab code.
+    Also creates a constraint file with data from an IR analysis to which this code can be coupled. For this purpose, modify the relative concentrations and add/remove compounds.
+    
     
 example_database.py:
     A short example code which shows how all functions from the database_functions.py module are used.

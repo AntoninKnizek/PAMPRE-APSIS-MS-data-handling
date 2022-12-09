@@ -1,7 +1,7 @@
 import pylab as plt
 import data_handling as dh
 
-filename = '2022_10_26_bargraph_gases_after_experiment.csv'
+filename = 'bargraph_after_experiment.csv'
 
 data_csv = dh.load_bargraph_csv(f'./data/{filename}')
 

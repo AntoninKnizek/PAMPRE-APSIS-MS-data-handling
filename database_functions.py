@@ -1,8 +1,10 @@
 import numpy as np
 import json
 import random
+import math
 
-def add_compound(db,name,form,ics,M,mz_min,mz_max):
+def add_compound(db,name,form,ics,M,mz_min,mz_max,gain=None,flow=None,
+                 source=None, doi=None,sensitivity=None,comments=None):
     '''Function to add new species to a database in live code.
     db - name of the database
     name - compound name
@@ -20,6 +22,12 @@ def add_compound(db,name,form,ics,M,mz_min,mz_max):
         db[name]['M'] = M
         db[name]['m/z'] = [*range(mz_min,mz_max+1)]
         db[name]['intensity'] = np.zeros(len(db[name]['m/z']), dtype=int)
+        db[name]['gain'] = gain
+        db[name]['flow'] = flow
+        db[name]['source'] = source
+        db[name]['doi'] = doi
+        db[name]['sensitivity'] = sensitivity
+        db[name]['comments'] = comments
     else:
         print('This compound already exists in the database.')
     
@@ -167,6 +175,12 @@ def add_compound_from_NIST(db,path_to_file):
         db[name]['formula'] = molform
         db[name]['ioniz_cross_sec'] = ''
         db[name]['M'] = M
+        db[name]['gain'] = ''
+        db[name]['flow'] = ''
+        db[name]['source'] = ''
+        db[name]['doi'] = doi
+        db[name]['sensitivity'] = ''
+        db[name]['comments'] = ''
         
         db[name]['m/z'] = db[rand_key]['m/z']
         db[name]['intensity'] = np.zeros(len(db[name]['m/z']), dtype=int)
@@ -263,8 +277,14 @@ def add_compound_from_NIST_to_file(path_to_c_db,path_to_compound):
         fout.write(f'  \"{name}\" : {cb}\n')
         fout.write(f'    \"name\" : \"{name}\",\n')
         fout.write(f'    \"formula\" : \"{molform}\",\n')
-        fout.write(f'    \"ioniz_cross_sec\" : 20,\n')
+        fout.write(f'    \"ioniz_cross_sec\" : "",\n')
         fout.write(f'    \"M\" : {M},\n')
+        fout.write(f'    \"gain\" : "",\n')
+        fout.write(f'    \"flow\" : "",\n')
+        fout.write(f'    \"source\" : "",\n')
+        fout.write(f'    \"doi\" : "",\n')
+        fout.write(f'    \"sensitivity\" : "",\n')
+        fout.write(f'    \"comments\" : "",\n')
         fout.write(f'    \"intensity\" : {cb}\n')
         for a in range(len_mz-1):
             fout.write(f'        \"{mz[a]}\" : {intens[a]},\n')
@@ -275,4 +295,8 @@ def add_compound_from_NIST_to_file(path_to_c_db,path_to_compound):
         
         fout.close()
     return print('Compound successfully added to the central database.')
+    
+def round_half_up(n,decimals=0):
+    multiplier = 10 ** decimals
+    return math.floor(n*multiplier + 0.5) / multiplier
     

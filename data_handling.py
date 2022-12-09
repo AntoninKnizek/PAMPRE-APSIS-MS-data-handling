@@ -96,3 +96,6 @@ def normalize_data(data,mz):
     data[:,1] = data[:,1]/data[list(data[:,0]).index(mz),1]
     
     return data    
+    
+    
+    
